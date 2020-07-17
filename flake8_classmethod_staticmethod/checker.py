@@ -43,7 +43,9 @@ class Checker:
         options: argparse.Namespace,
         extra_args,
     ):
-        cls.enabled_errors = [int(option[4:]) for option in options.select_clst1]
+        cls.enabled_errors = [
+            int(option[4:]) for option in options.select_clst1
+        ]
 
     def run(self) -> Iterable[Tuple[int, int, str, type]]:
         for cls_node in ast.walk(self.tree):

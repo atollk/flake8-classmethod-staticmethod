@@ -44,7 +44,9 @@ class BaseTest(abc.ABC):
         col: int,
     ) -> None:
         error_found = any(
-            report.line == line and report.col == col and report.code == error_code
+            report.line == line
+            and report.col == col
+            and report.code == error_code
             for report in reported_errors
         )
         if not error_found:

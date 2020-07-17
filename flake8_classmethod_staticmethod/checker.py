@@ -1,5 +1,6 @@
 import argparse
 import ast
+import sys
 from typing import Iterable, Tuple
 
 import flake8.options.manager
@@ -8,6 +9,8 @@ DEFAULT_SELECT = [
     "CLST101",
     "CLST131",
 ]
+
+PYTHON_38 = sys.version_info >= (3, 8)
 
 
 class Checker:
@@ -48,26 +51,29 @@ class Checker:
                 classname = cls_node.name
                 for fn_node in ast.walk(cls_node):
                     if isinstance(fn_node, ast.FunctionDef):
-                        is_staticmethod = any(
-                            isinstance(deco, ast.Name) and deco.id == "staticmethod"
-                            for deco in fn_node.decorator_list
-                        )
-                        is_classmethod = any(
-                            isinstance(deco, ast.Name) and deco.id == "classmethod"
-                            for deco in fn_node.decorator_list
-                        )
-                        if is_staticmethod:
-                            if 100 in self.enabled_errors:
-                                yield from _clst100(fn_node)
-                            if 101 in self.enabled_errors:
-                                yield from _clst101(fn_node, classname)
-                        if is_classmethod:
-                            if 130 in self.enabled_errors:
-                                yield from _clst130(fn_node)
-                            if 131 in self.enabled_errors:
-                                yield from _clst131(fn_node)
-                            if 132 in self.enabled_errors:
-                                yield from _clst132(fn_node, classname)
+                        yield from self._check_function_node(fn_node, classname)
+
+    def _check_function_node(self, fn_node: ast.FunctionDef, classname: str):
+        is_staticmethod = any(
+            isinstance(deco, ast.Name) and deco.id == "staticmethod"
+            for deco in fn_node.decorator_list
+        )
+        is_classmethod = any(
+            isinstance(deco, ast.Name) and deco.id == "classmethod"
+            for deco in fn_node.decorator_list
+        )
+        if is_staticmethod:
+            if 100 in self.enabled_errors:
+                yield from _clst100(fn_node)
+            if 101 in self.enabled_errors:
+                yield from _clst101(fn_node, classname)
+        if is_classmethod:
+            if 130 in self.enabled_errors:
+                yield from _clst130(fn_node)
+            if 131 in self.enabled_errors:
+                yield from _clst131(fn_node)
+            if 132 in self.enabled_errors:
+                yield from _clst132(fn_node, classname)
 
 
 ERROR_MESSAGES = {

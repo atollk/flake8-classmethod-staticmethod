@@ -1,6 +1,6 @@
 # flake8-classmethod-staticmethod
-[![Build Status](https://github.com/atollk/flake8-import-restrictions/workflows/tox/badge.svg)](https://github.com/atollk/flake8-import-restrictions/actions)
-[![Build Status](https://github.com/atollk/flake8-import-restrictions/workflows/black/badge.svg)](https://github.com/atollk/flake8-import-restrictions/actions)
+[![Build Status](https://github.com/atollk/flake8-classmethod-staticmethod/workflows/tox/badge.svg)](https://github.com/atollk/flake8-classmethod-staticmethod/actions)
+[![Build Status](https://github.com/atollk/flake8-classmethod-staticmethod/workflows/black/badge.svg)](https://github.com/atollk/flake8-classmethod-staticmethod/actions)
 
 
 flake8 plugin that checks rules regarding the staticmethod and classmethod decorators.

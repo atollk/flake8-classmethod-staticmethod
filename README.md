@@ -83,3 +83,22 @@ class MyClass:
     def my_name():
         return "MyClass"
 ```
+
+### CLST132
+A method marked as `@classmethod` should not reference the class it
+is defined in. Use the `cls` parameter.
+
+```python
+class MyClass:
+    @classmethod
+    def my_name(cls):
+        return MyClass.__name__
+```
+
+**Good** 
+```python
+class MyClass:
+    @classmethod
+    def my_name(cls):
+        return cls.__name__
+```

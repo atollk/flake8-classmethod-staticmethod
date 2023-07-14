@@ -1,4 +1,3 @@
-from flake8_classmethod_staticmethod.checker import PYTHON_38
 from tests.util import BaseTest
 
 
@@ -27,4 +26,4 @@ class Test_CSM130(BaseTest):
                 pass
         """
         result = self.run_flake8(code)
-        self.assert_error_at(result, "CSM130", 3 if PYTHON_38 else 2, 5)
+        self.assert_error_at(result, "CSM130", 4, 5)

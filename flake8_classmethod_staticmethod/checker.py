@@ -10,9 +10,6 @@ DEFAULT_SELECT = [
     "CSM131",
 ]
 
-PYTHON_38 = sys.version_info >= (3, 8)
-
-
 class Checker:
     """
     flake8 plugin that checks rules regarding the staticmethod and classmethod decorators.
@@ -44,7 +41,7 @@ class Checker:
         extra_args,
     ):
         cls.enabled_errors = [
-            int(option[4:]) for option in options.select_csm1
+            int(option[3:]) for option in options.select_csm1
         ]
 
     def run(self) -> Iterable[Tuple[int, int, str, type]]:

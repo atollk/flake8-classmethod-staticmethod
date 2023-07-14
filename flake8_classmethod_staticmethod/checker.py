@@ -10,6 +10,7 @@ DEFAULT_SELECT = [
     "CSM131",
 ]
 
+
 class Checker:
     """
     flake8 plugin that checks rules regarding the staticmethod and classmethod decorators.
@@ -40,9 +41,7 @@ class Checker:
         options: argparse.Namespace,
         extra_args,
     ):
-        cls.enabled_errors = [
-            int(option[3:]) for option in options.select_csm1
-        ]
+        cls.enabled_errors = [int(option[3:]) for option in options.select_csm1]
 
     def run(self) -> Iterable[Tuple[int, int, str, type]]:
         for cls_node in ast.walk(self.tree):

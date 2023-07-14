@@ -30,9 +30,7 @@ class BaseTest(abc.ABC):
     def _flake8dir(self, flake8_path):
         self.flake8_path = flake8_path
 
-    def run_flake8(
-        self, code: str
-    ) -> List[ReportedMessage]:
+    def run_flake8(self, code: str) -> List[ReportedMessage]:
         (self.flake8_path / "example.py").write_text(textwrap.dedent(code))
         args = [f"--select_csm1={self.error_code()}"]
         result = self.flake8_path.run_flake8(args)
@@ -46,9 +44,7 @@ class BaseTest(abc.ABC):
         col: int,
     ) -> None:
         error_found = any(
-            report.line == line
-            and report.col == col
-            and report.code == error_code
+            report.line == line and report.col == col and report.code == error_code
             for report in reported_errors
         )
         if not error_found:

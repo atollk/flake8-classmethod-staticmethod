@@ -6,8 +6,8 @@ from typing import Iterable, Tuple
 import flake8.options.manager
 
 DEFAULT_SELECT = [
-    "CLST101",
-    "CLST131",
+    "CSM101",
+    "CSM131",
 ]
 
 PYTHON_38 = sys.version_info >= (3, 8)
@@ -28,7 +28,7 @@ class Checker:
     @staticmethod
     def add_options(option_manager: flake8.options.manager.OptionManager):
         option_manager.add_option(
-            "--select_clst1",
+            "--select_csm1",
             type=str,
             comma_separated_list=True,
             default=DEFAULT_SELECT,
@@ -44,7 +44,7 @@ class Checker:
         extra_args,
     ):
         cls.enabled_errors = [
-            int(option[4:]) for option in options.select_clst1
+            int(option[4:]) for option in options.select_csm1
         ]
 
     def run(self) -> Iterable[Tuple[int, int, str, type]]:
@@ -66,16 +66,16 @@ class Checker:
         )
         if is_staticmethod:
             if 100 in self.enabled_errors:
-                yield from _clst100(fn_node)
+                yield from _csm100(fn_node)
             if 101 in self.enabled_errors:
-                yield from _clst101(fn_node, classname)
+                yield from _csm101(fn_node, classname)
         if is_classmethod:
             if 130 in self.enabled_errors:
-                yield from _clst130(fn_node)
+                yield from _csm130(fn_node)
             if 131 in self.enabled_errors:
-                yield from _clst131(fn_node)
+                yield from _csm131(fn_node)
             if 132 in self.enabled_errors:
-                yield from _clst132(fn_node, classname)
+                yield from _csm132(fn_node, classname)
 
 
 ERROR_MESSAGES = {
@@ -98,16 +98,16 @@ def _error_tuple(error_code: int, node: ast.AST) -> Tuple[int, int, str, type]:
     return (
         node.lineno,
         node.col_offset,
-        f"CLST{error_code} {ERROR_MESSAGES[error_code]}",
+        f"CSM{error_code} {ERROR_MESSAGES[error_code]}",
         Checker,
     )
 
 
-def _clst100(node: ast.FunctionDef) -> Iterable[Tuple[int, int, str, type]]:
+def _csm100(node: ast.FunctionDef) -> Iterable[Tuple[int, int, str, type]]:
     yield _error_tuple(100, node)
 
 
-def _clst101(
+def _csm101(
     node: ast.FunctionDef, classname: str
 ) -> Iterable[Tuple[int, int, str, type]]:
     references_class = any(
@@ -118,18 +118,18 @@ def _clst101(
         yield _error_tuple(101, node)
 
 
-def _clst130(node: ast.FunctionDef) -> Iterable[Tuple[int, int, str, type]]:
+def _csm130(node: ast.FunctionDef) -> Iterable[Tuple[int, int, str, type]]:
     yield _error_tuple(130, node)
 
 
-def _clst131(node: ast.FunctionDef) -> Iterable[Tuple[int, int, str, type]]:
+def _csm131(node: ast.FunctionDef) -> Iterable[Tuple[int, int, str, type]]:
     if node.args.args:
         cls_param = node.args.args[0].arg
         if not _function_uses_identifier(node, cls_param):
             yield _error_tuple(131, node)
 
 
-def _clst132(
+def _csm132(
     node: ast.FunctionDef, classname: str
 ) -> Iterable[Tuple[int, int, str, type]]:
     if _function_uses_identifier(node, classname):

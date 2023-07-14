@@ -7,17 +7,17 @@ flake8 plugin that checks rules regarding the staticmethod and classmethod decor
 
 ## Options
 
-The plugin offers one flag, `--select_clst1`, accepting a list of error
+The plugin offers one flag, `--select_csm1`, accepting a list of error
 codes (see below) to be enabled. By default, the enabled errors
-are `CLST101` and `CLST131`.
+are `CSM101` and `CSM131`.
 
 ## Error Codes
 
-### CLST100
+### CSM100
 
 `@staticmethod` should not be used.
 
-### CLST101
+### CSM101
 
 A method marked as `@staticmethod` should not reference the class it
 is defined in. Use `@classmethod` otherwise.
@@ -38,7 +38,7 @@ class MyClass:
         return cls.__name__
 ```
 
-### CLST102
+### CSM102
 
 Do not inherit and override a method marked as `@staticmethod`.
 
@@ -63,11 +63,11 @@ class MyClass:
         return cls.__name__
 ```
 
-### CLST130
+### CSM130
 
 `@classmethod` should not be used.
 
-### CLST131
+### CSM131
 
 A method marked as `@classmethod` should access the parameter `cls`.
 Use `@staticmethod` otherwise.
@@ -88,7 +88,7 @@ class MyClass:
         return "MyClass"
 ```
 
-### CLST132
+### CSM132
 A method marked as `@classmethod` should not reference the class it
 is defined in. Use the `cls` parameter.
 

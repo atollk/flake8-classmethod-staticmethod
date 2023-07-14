@@ -32,7 +32,7 @@ class BaseTest(abc.ABC):
 
     def run_flake8(self, code: str) -> List[ReportedMessage]:
         self.flake8dir.make_example_py(textwrap.dedent(code))
-        args = [f"--select_clst1={self.error_code()}"]
+        args = [f"--select_csm1={self.error_code()}"]
         result = self.flake8dir.run_flake8(args)
         return [ReportedMessage.from_raw(report) for report in result.out_lines]
 

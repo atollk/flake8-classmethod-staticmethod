@@ -31,6 +31,16 @@ class Test_CSM131(BaseTest):
         result = self.run_flake8(code)
         assert result == []
 
+    def test_pass_3(self):
+        code = """
+        class FooX:
+            @classmethod
+            def bar(cls):
+                super()
+        """
+        result = self.run_flake8(code)
+        assert result == []
+
     def test_fail_1(self):
         code = """
         class FooX:

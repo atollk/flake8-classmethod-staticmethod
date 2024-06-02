@@ -121,8 +121,21 @@ def _csm130(node: ast.FunctionDef) -> Iterable[Tuple[int, int, str, type]]:
 def _csm131(node: ast.FunctionDef) -> Iterable[Tuple[int, int, str, type]]:
     if node.args.args:
         cls_param = node.args.args[0].arg
-        if not _function_uses_identifier(node, cls_param):
-            yield _error_tuple(131, node)
+        if _function_uses_identifier(node, cls_param):
+            return []
+
+        calls = [
+            child for child in ast.walk(node) if isinstance(child, ast.Call)
+        ]
+        for call in calls:
+            if (
+                isinstance(call.func, ast.Name)
+                and call.func.id == "super"
+                and len(call.args) == 0
+            ):
+                return []
+
+        yield _error_tuple(131, node)
 
 
 def _csm132(

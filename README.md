@@ -71,6 +71,7 @@ class MyClass:
 
 A method marked as `@classmethod` should access the parameter `cls`.
 Use `@staticmethod` otherwise.
+A special case that is exempt is a method that has a call to `super()`.
 
 **Bad** 
 ```python

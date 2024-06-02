@@ -121,7 +121,7 @@ def _csm130(node: ast.FunctionDef) -> Iterable[Tuple[int, int, str, type]]:
 def _csm131(node: ast.FunctionDef) -> Iterable[Tuple[int, int, str, type]]:
     if node.args.args:
         cls_param = node.args.args[0].arg
-        if not _function_uses_identifier(node, cls_param):
+        if not _function_uses_identifier(node, cls_param) and not _function_uses_identifier(node, "super"):
             yield _error_tuple(131, node)
 
 
